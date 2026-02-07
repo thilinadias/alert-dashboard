@@ -9,7 +9,7 @@ echo "------------------------------------------------"
 
 # Function to check if a port is in use
 check_port() {
-    [ -n "$(ss -tuln | grep ":$1 ")" ] || [ -n "$(netstat -tuln | grep ":$1 ")" ] || (echo >/dev/tcp/localhost/$1) &>/dev/null
+    (ss -tuln 2>/dev/null | grep -q ":$1 ") || (netstat -tuln 2>/dev/null | grep -q ":$1 ") || (echo >/dev/tcp/localhost/$1) 2>/dev/null
     return $?
 }
 
@@ -43,6 +43,12 @@ if check_port 3306; then
     fi
 fi
 
+# Detect Local IP early
+IP_ADDR=$(hostname -I | awk '{print $1}')
+if [ -z "$IP_ADDR" ]; then
+    IP_ADDR="localhost"
+fi
+
 # 3. Create/Update .env
 echo "Configuring environment..."
 if [ ! -f .env ]; then
@@ -62,15 +68,16 @@ update_env() {
 
 update_env "APP_PORT" "$HTTP_PORT"
 update_env "DB_PORT_HOST" "$DB_PORT_HOST"
-update_env "APP_URL" "http://\${IP_ADDR:-\$IP_ADDR}"
+update_env "APP_URL" "http://$IP_ADDR"
 
 # Fix permissions and line endings
 chmod +x docker-entrypoint.sh
 sed -i 's/\r$//' docker-entrypoint.sh 2>/dev/null
 sed -i 's/\r$//' .env 2>/dev/null
 
-echo "✅ Configuration ready (Web: $HTTP_PORT, DB: $DB_PORT)"
+echo "✅ Configuration ready (Web: $HTTP_PORT, DB: $DB_PORT_HOST)"
 echo "🚀 Launching Docker containers..."
+
 
 # Detect which compose command to use
 if docker compose version >/dev/null 2>&1; then
