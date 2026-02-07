@@ -134,8 +134,10 @@ $DOCKER_CMD exec app cat /usr/local/etc/php-fpm.d/www.conf | grep listen || echo
 # Check if app is listening on 9000
 if ! $DOCKER_CMD exec app nc -z localhost 9000; then
     echo "❌ ERROR: PHP-FPM is NOT listening on port 9000 internally."
-    echo "Container Logs:"
-    $DOCKER_CMD logs app
+    echo "--- App Logs ---"
+    $DOCKER_CMD logs app --tail 50
+    echo "--- DB Logs (Is MySQL crashing?) ---"
+    $DOCKER_CMD logs db --tail 50
     exit 1
 fi
 
