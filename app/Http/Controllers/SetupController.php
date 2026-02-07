@@ -58,7 +58,7 @@ class SetupController extends Controller
                 'group' => posix_getgrgid(filegroup($path)),
                 'whoami' => exec('whoami'),
             ],
-            'users' => \App\Models\User::all(['id', 'name', 'email'])->toArray(),
+            //'users' => \App\Models\User::all(['id', 'name', 'email'])->toArray(), // Removed for security
             'route_cache_cleared' => true,
         ]);
     }
