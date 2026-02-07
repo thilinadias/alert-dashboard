@@ -33,5 +33,12 @@ php artisan migrate --force
 # Link storage
 php artisan storage:link
 
+# Link storage
+php artisan storage:link
+
+# Fix permissions for storage (since we are running as root now)
+chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
+
 # Start PHP-FPM
 exec php-fpm

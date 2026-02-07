@@ -46,11 +46,14 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh && chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # -----------------------------------------------
-# Application Setup ( Runs as www-data )
+# Application Setup
 # -----------------------------------------------
 
-# Change current user to www
-USER www-data
+# Allow Composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+# Fix Git "dubious ownership" error for mounted volumes
+RUN git config --system --add safe.directory '*'
 
 # Copy existing application directory contents
 COPY --chown=www-data:www-data . /var/www
