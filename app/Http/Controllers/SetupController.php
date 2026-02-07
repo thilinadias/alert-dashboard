@@ -79,7 +79,7 @@ class SetupController extends Controller
                 'port' => $request->db_port,
                 'database' => $request->db_database,
                 'username' => $request->db_username,
-                'password' => $request->db_password ?? '',
+                'password' => $request->db_password ?? 'root', // Default to root if empty
             ]);
 
             // Set temporary config to test
@@ -92,7 +92,7 @@ class SetupController extends Controller
                 'DB_PORT' => $request->db_port,
                 'DB_DATABASE' => $request->db_database,
                 'DB_USERNAME' => $request->db_username,
-                'DB_PASSWORD' => $request->db_password ?? '',
+                'DB_PASSWORD' => $request->db_password ?? 'root',
             ]);
 
             return redirect()->route('setup.migrate');
