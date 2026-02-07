@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/setup', [App\Http\Controllers\SetupController::class, 'index'])->name('setup.index');
 Route::get('/setup/requirements', [App\Http\Controllers\SetupController::class, 'checkRequirements'])->name('setup.requirements');
 Route::get('/setup/debug-env', [App\Http\Controllers\SetupController::class, 'debugEnv']);
+Route::get('/setup/debug-config', [App\Http\Controllers\SetupController::class, 'debugConfig']);
 Route::get('/setup/database', [App\Http\Controllers\SetupController::class, 'showDatabaseForm'])->name('setup.database');
 Route::post('/setup/database', [App\Http\Controllers\SetupController::class, 'configureDatabase'])->name('setup.database.post');
 Route::get('/setup/migrate', [App\Http\Controllers\SetupController::class, 'runMigrations'])->name('setup.migrate');

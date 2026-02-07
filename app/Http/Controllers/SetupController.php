@@ -63,6 +63,17 @@ class SetupController extends Controller
         ]);
     }
 
+    public function debugConfig()
+    {
+        // Debug OAuth Config Loading
+        return response()->json([
+            'db_settings' => \App\Models\Setting::all()->pluck('value', 'key'),
+            'config_google' => config('services.google'),
+            'config_microsoft' => config('services.microsoft'),
+            'env_google_id' => env('GOOGLE_CLIENT_ID'),
+        ]);
+    }
+
     public function showDatabaseForm()
     {
         return view('setup.database');
