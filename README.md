@@ -58,6 +58,7 @@ The system fetches alerts via **IMAP** (supports OAuth2). Here is how to set up 
     - Go to **Credentials** -> **Create Credentials** -> **OAuth Client ID**.
     - Set the **Authorized redirect URIs** to `http://your-domain.com/oauth/callback`.
     > **Note**: Google requires a public domain. If testing on localhost/IP, use a service like `nip.io` (e.g., `http://192.168.1.10.nip.io/oauth/callback`).
+    - **Crucial**: Go to **OAuth Consent Screen** -> **Test Users** and add your email address (e.g., `alertnotificationsft@gmail.com`). Since your app is in "Testing" mode, only added users can log in.
 2.  **App Setup**:
     - Copy your **Client ID** and **Client Secret** into the Dashboard Settings.
     - Click **"Link Google Account"** in the Dashboard to authorize.
