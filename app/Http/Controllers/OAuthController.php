@@ -12,9 +12,9 @@ class OAuthController extends Controller
     protected function getProvider()
     {
         return new Google([
-            'clientId'     => env('GOOGLE_CLIENT_ID'),
-            'clientSecret' => env('GOOGLE_CLIENT_SECRET'),
-            'redirectUri'  => env('GOOGLE_REDIRECT_URI'),
+            'clientId'     => config('services.google.client_id'),
+            'clientSecret' => config('services.google.client_secret'),
+            'redirectUri'  => config('services.google.redirect'),
         ]);
     }
 
