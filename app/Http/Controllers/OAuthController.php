@@ -33,8 +33,9 @@ class OAuthController extends Controller
         // Store state in session for CSRF protection
         session(['oauth2state' => $provider->getState()]);
 
-        dd($authUrl); // DEBUG: Print URL instead of redirecting
-        // return redirect($authUrl);
+        \Illuminate\Support\Facades\Log::info('Google Auth URL: ' . $authUrl);
+        
+        return redirect($authUrl);
     }
 
     public function handleGoogleCallback(Request $request)
