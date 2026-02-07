@@ -56,6 +56,11 @@ fi
 sed -i "s/^APP_PORT=.*/APP_PORT=$HTTP_PORT/" .env 2>/dev/null || echo "APP_PORT=$HTTP_PORT" >> .env
 sed -i "s/^DB_PORT_HOST=.*/DB_PORT_HOST=$DB_PORT/" .env 2>/dev/null || echo "DB_PORT_HOST=$DB_PORT" >> .env
 
+# Fix permissions and line endings for the entrypoint script
+chmod +x docker-entrypoint.sh
+# Fix potential Windows CRLF issues
+sed -i 's/\r$//' docker-entrypoint.sh
+
 echo "✅ Configuration ready (Web: $HTTP_PORT, DB: $DB_PORT)"
 echo "🚀 Launching Docker containers..."
 

@@ -28,6 +28,9 @@ WORKDIR /var/www
 # Copy existing application directory contents
 COPY . /var/www
 
+# Ensure entrypoint is executable
+RUN chmod +x /var/www/docker-entrypoint.sh
+
 # Copy existing application directory permissions
 COPY --chown=www-data:www-data . /var/www
 
