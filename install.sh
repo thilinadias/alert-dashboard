@@ -95,6 +95,21 @@ chmod +x docker-entrypoint.sh
 sed -i 's/\r$//' docker-entrypoint.sh 2>/dev/null
 sed -i 's/\r$//' .env 2>/dev/null
 
+# 2. Configure Database Credentials (Prevent 'root' user crash)
+if [ -f .env ]; then
+    # If DB_USERNAME is root, change it to alert_user to avoid Docker crash
+    if grep -q "DB_USERNAME=root" .env; then
+        echo "⚠️  Detected 'root' as DB_USERNAME. This causes Docker MySQL to crash."
+        echo "🔧 Fixing .env: DB_USERNAME -> alert_user"
+        # Use simple sed for cross-platform compatibility (Linux standard)
+        sed -i 's/DB_USERNAME=root/DB_USERNAME=alert_user/' .env
+    fi
+else
+    # Create .env if missing
+    cp .env.example .env
+    sed -i 's/DB_USERNAME=root/DB_USERNAME=alert_user/' .env
+fi
+
 echo "✅ Configuration ready (Web: $HTTP_PORT, DB: $DB_PORT_HOST)"
 echo "🚀 Launching Docker containers..."
 
