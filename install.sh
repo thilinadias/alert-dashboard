@@ -146,13 +146,29 @@ $DOCKER_CMD exec app ps aux | grep php || echo "⚠️ PID Check Failed"
 $DOCKER_CMD exec app netstat -tulpn || echo "⚠️ Network Check Failed (netstat missing?)"
 $DOCKER_CMD exec app cat /usr/local/etc/php-fpm.d/www.conf | grep listen || echo "⚠️ Config Check Failed"
 
-# Check if app is listening on 9000
-if ! $DOCKER_CMD exec app nc -z localhost 9000; then
-    echo "❌ ERROR: PHP-FPM is NOT listening on port 9000 internally."
+# Check if app is listening on 9000 (Wait loop for DB initialization)
+echo "⏳ Waiting for App to initialize (this checks if PHP-FPM is ready)..."
+MAX_RETRIES=30
+COUNT=0
+resolved=false
+
+while [ $COUNT -lt $MAX_RETRIES ]; do
+    if $DOCKER_CMD exec app nc -z localhost 9000; then
+        resolved=true
+        break
+    fi
+    echo -n "."
+    sleep 2
+    COUNT=$((COUNT+1))
+done
+echo ""
+
+if [ "$resolved" = false ]; then
+    echo "❌ ERROR: PHP-FPM failed to start within 60 seconds."
     echo "--- App Logs ---"
-    $DOCKER_CMD logs app --tail 50
-    echo "--- DB Logs (Is MySQL crashing?) ---"
-    $DOCKER_CMD logs db --tail 50
+    $DOCKER_CMD logs app --tail 20
+    echo "--- DB Logs ---"
+    $DOCKER_CMD logs db --tail 20
     exit 1
 fi
 
