@@ -1,0 +1,47 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// Alert Dashboard Styles
+@keyframes blink-alert {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.alert-row-critical {
+    background-color: #ffe5e5;
+    border-left: 5px solid #dc3545;
+}
+
+.alert-row-overdue {
+    animation: blink-alert 2s infinite;
+    background-color: #fff0f0;
+    border-left: 5px solid #dc3545;
+    font-weight: bold;
+}
+
+.alert-row-warning {
+    background-color: #fff8e1;
+    border-left: 5px solid #ffc107;
+}
+
+.alert-row-default {
+    border-left: 5px solid #0d6efd;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.alert-details-row {
+    background-color: #f8f9fa;
+}
