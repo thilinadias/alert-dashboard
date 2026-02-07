@@ -17,21 +17,20 @@ A powerful, high-speed, and role-based dashboard for managing help desk alerts, 
 
 ## 🐳 Docker Installation (Recommended)
 
-This is the easiest way to launch the system on both **Windows** (using Docker Desktop) and **Linux**.
+This is the easiest way to launch the system on both **Windows** and **Linux**. The installer will automatically detect if your device already has other services running on certain ports and propose alternatives.
 
 1.  **Clone the project**
     ```bash
-    git clone https://github.com/yourusername/alert-dashboard.git
+    git clone https://github.com/thilinadias/alert-dashboard.git
     cd alert-dashboard
     ```
 
-2.  **Start with Docker Compose**
-    ```bash
-    docker-compose up -d
-    ```
+2.  **Run the Interactive Installer**
+    - **Windows**: Double-click `install.bat`
+    - **Linux**: Run `chmod +x install.sh && ./install.sh`
 
 3.  **Launch the Setup Wizard**
-    Open your browser and navigate to: `http://localhost/setup`
+    Follow the URL provided at the end of the script (usually `http://localhost/setup`).
 
 ---
 
