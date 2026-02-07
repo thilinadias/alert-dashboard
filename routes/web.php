@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/setup', [App\Http\Controllers\SetupController::class, 'index'])->name('setup.index');
+Route::get('/setup/requirements', [App\Http\Controllers\SetupController::class, 'checkRequirements'])->name('setup.requirements');
+Route::get('/setup/debug-env', [App\Http\Controllers\SetupController::class, 'debugEnv']);
+Route::get('/setup/database', [App\Http\Controllers\SetupController::class, 'showDatabaseForm'])->name('setup.database');
+Route::post('/setup/database', [App\Http\Controllers\SetupController::class, 'configureDatabase'])->name('setup.database.post');
+Route::get('/setup/migrate', [App\Http\Controllers\SetupController::class, 'runMigrations'])->name('setup.migrate');
+Route::get('/setup/admin', [App\Http\Controllers\SetupController::class, 'showAdminForm'])->name('setup.admin');
+Route::post('/setup/admin', [App\Http\Controllers\SetupController::class, 'createAdmin'])->name('setup.admin.post');
+Route::get('/setup/email', [App\Http\Controllers\SetupController::class, 'showEmailForm'])->name('setup.email');
+Route::post('/setup/email', [App\Http\Controllers\SetupController::class, 'configureEmail'])->name('setup.email.post');
 Route::get('/setup/ssl', [App\Http\Controllers\SetupController::class, 'showSslForm'])->name('setup.ssl');
 Route::post('/setup/ssl/generate', [App\Http\Controllers\SetupController::class, 'generateSsl'])->name('setup.ssl.generate');
 Route::get('/setup/finish', [App\Http\Controllers\SetupController::class, 'finish'])->name('setup.finish');
