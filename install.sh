@@ -79,13 +79,32 @@ $DOCKER_CMD down --remove-orphans 2>/dev/null
 # Launch
 $DOCKER_CMD up -d --build
 
+# Wait a few seconds for startup
+echo "⏳ Waiting for services to initialize..."
+sleep 5
+
 # Detect Local IP
 IP_ADDR=$(hostname -I | awk '{print $1}')
 if [ -z "$IP_ADDR" ]; then
     IP_ADDR="localhost"
 fi
 
+# Verify Container Status
+echo "------------------------------------------------"
+echo "🔍 Checking Service Status:"
+$DOCKER_CMD ps
+
+# Check if webserver is down
+if ! $DOCKER_CMD ps | grep -q "alert-dashboard-webserver.*Up"; then
+    echo "❌ ERROR: Webserver container failed to stay Up."
+    echo "Run: '$DOCKER_CMD logs alert-dashboard-webserver' to see why."
+    exit 1
+fi
+
 echo "------------------------------------------------"
 echo "✨ Installation Complete!"
 echo "Access the Setup Wizard at: http://$IP_ADDR:$HTTP_PORT/setup"
+echo ""
+echo "💡 TIP: If the page doesn't load, check your Linux firewall:"
+echo "   sudo ufw allow $HTTP_PORT/tcp"
 echo "------------------------------------------------"
