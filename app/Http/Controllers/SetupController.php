@@ -44,16 +44,22 @@ class SetupController extends Controller
 
     public function debugEnv()
     {
+        // Clear caches to ensure we see fresh data and routes
+        Artisan::call('route:clear');
+        Artisan::call('config:clear');
+
         $path = base_path('.env');
         return response()->json([
-            'exists' => file_exists($path),
-            'writable' => is_writable($path),
-            'permissions' => substr(sprintf('%o', fileperms($path)), -4),
-            'owner' => posix_getpwuid(fileowner($path)),
-            'group' => posix_getgrgid(filegroup($path)),
-            'usering_id' => posix_getuid(),
-            'effective_user' => posix_geteuid(),
-            'whoami' => exec('whoami'),
+            'environment' => [
+                'exists' => file_exists($path),
+                'writable' => is_writable($path),
+                'permissions' => substr(sprintf('%o', fileperms($path)), -4),
+                'owner' => posix_getpwuid(fileowner($path)),
+                'group' => posix_getgrgid(filegroup($path)),
+                'whoami' => exec('whoami'),
+            ],
+            'users' => \App\Models\User::all(['id', 'name', 'email'])->toArray(),
+            'route_cache_cleared' => true,
         ]);
     }
 
