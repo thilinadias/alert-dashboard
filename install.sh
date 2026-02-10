@@ -69,6 +69,39 @@ if [ -z "$IP_ADDR" ]; then
     IP_ADDR="localhost"
 fi
 
+# 3. Configure APP_URL (Domain vs IP)
+echo "------------------------------------------------"
+echo "🌐 Domain Configuration"
+echo "------------------------------------------------"
+read -p "👉 Do you have a custom domain for this server? (e.g., alert.company.com) [y/N]: " has_domain
+has_domain=${has_domain:-N}
+
+if [[ "$has_domain" =~ ^[Yy]$ ]]; then
+    read -p "   Enter your domain (NO http://): " CUSTOM_DOMAIN
+    APP_URL="http://$CUSTOM_DOMAIN"
+    echo "✅ APP_URL set to: $APP_URL"
+else
+    # Fallback to IP / Nip.io
+    if [[ "$IP_ADDR" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        echo "💡 Detected Local IP: $IP_ADDR"
+        echo "   Google OAuth requires a public Top-Level Domain (TLD)."
+        echo "   We can use 'nip.io' to automatically map 'http://$IP_ADDR.nip.io' to your local IP."
+        echo ""
+        read -p "👉 Do you want to use nip.io for Google OAuth compatibility? (Recommended) [Y/n]: " use_nip
+        use_nip=${use_nip:-Y}
+
+        if [[ "$use_nip" =~ ^[Yy]$ ]]; then
+            APP_URL="http://$IP_ADDR.nip.io"
+            echo "✅ APP_URL set to: $APP_URL"
+        else
+            APP_URL="http://$IP_ADDR"
+            echo "⚠️  APP_URL set to: $APP_URL (Google OAuth may not work)"
+        fi
+    else
+        APP_URL="http://$IP_ADDR"
+    fi
+fi
+
 # 3. Create/Update .env
 echo "Configuring environment..."
 if [ ! -f .env ]; then
@@ -88,7 +121,7 @@ update_env() {
 
 update_env "APP_PORT" "$HTTP_PORT"
 update_env "DB_PORT_HOST" "$DB_PORT_HOST"
-update_env "APP_URL" "http://$IP_ADDR"
+update_env "APP_URL" "$APP_URL"
 
 # Fix permissions and line endings
 chmod +x docker-entrypoint.sh

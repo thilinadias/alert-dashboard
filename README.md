@@ -27,7 +27,9 @@ This is the easiest way to launch the system on both **Windows** and **Linux**. 
 
 2.  **Run the Interactive Installer**
     - **Windows**: Double-click `install.bat`
+    - **Windows**: Double-click `install.bat`
     - **Linux**: Run `chmod +x install.sh && ./install.sh`
+    > **Tip**: The installer will ask if you have a **Custom Domain** (e.g., `alert.company.com`). If not, it will offer to use `nip.io` for local IP compatibility.
 
 3.  **Launch the Setup Wizard**
     Follow the URL provided at the end of the script (usually `http://localhost/setup`).
@@ -57,7 +59,8 @@ The system fetches alerts via **IMAP** (supports OAuth2). Here is how to set up 
     - Go to **OAuth Consent Screen** and set it to "External" (or Internal for Workspace).
     - Go to **Credentials** -> **Create Credentials** -> **OAuth Client ID**.
     - Set the **Authorized redirect URIs** to `http://your-domain.com/oauth/callback`.
-    > **Note**: Google requires a public domain. If testing on localhost/IP, use a service like `nip.io` (e.g., `http://192.168.1.10.nip.io/oauth/callback`).
+    - Set the **Authorized redirect URIs** to `http://your-domain.com/oauth/callback`.
+    > **Note**: Google requires a public domain. If testing on localhost/IP, our installer will offer to use `nip.io` (e.g., `http://192.168.1.10.nip.io/oauth/callback`) to bypass this.
     - **Crucial**: Go to **OAuth Consent Screen** -> **Test Users** and add your email address (e.g., `alertnotificationsft@gmail.com`). Since your app is in "Testing" mode, only added users can log in.
 2.  **App Setup**:
     - Copy your **Client ID** and **Client Secret** into the Dashboard Settings.
