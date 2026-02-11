@@ -76,14 +76,37 @@ echo APP_URL=!APP_URL!>>.env
 echo ✅ Configuration ready (Web: %HTTP_PORT%, DB: %DB_PORT%)
 echo 🚀 Launching Docker containers...
 
-:: Check for docker-compose or docker compose
+:: Check for Docker availability
+echo.
+echo 🐳 Checking for Docker...
+
+:: Try to find docker-compose (Legacy)
+where docker-compose >nul 2>&1
+if %errorlevel% equ 0 (
+    set COMPOSE_CMD=docker-compose
+    echo ✅ Found: docker-compose
+    goto :Launch
+)
+
+:: Try to find docker compose (Modern)
 docker compose version >nul 2>&1
 if %errorlevel% equ 0 (
     set COMPOSE_CMD=docker compose
-) else (
-    set COMPOSE_CMD=docker-compose
+    echo ✅ Found: docker compose plugin
+    goto :Launch
 )
 
+:: Failed to find either
+echo.
+echo ❌ ERROR: Docker Compose not found!
+echo.
+echo Please install Docker Desktop for Windows:
+echo 👉 https://www.docker.com/products/docker-desktop/
+echo.
+pause
+exit /b 1
+
+:Launch
 echo 🚀 Launching Docker containers...
 %COMPOSE_CMD% up -d
 
