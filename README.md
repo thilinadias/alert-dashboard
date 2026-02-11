@@ -7,20 +7,19 @@ A powerful, high-speed, and role-based dashboard for managing help desk alerts, 
 ## 🚀 Key Features
 
 - **Double-Speed Monitoring**: Default 10-second polling for real-time alert awareness.
-- **Dockerized Ready**: One-command installation for Windows and Linux.
+- **Dockerized Ready**: One-command installation for Linux.
 - **Interactive GUI Setup**: Browser-based installer for easy configuration.
-- **IIS Support**: Native Windows Server deployment guide included.
+- **Linux Optimized**: Dedicated [Manual Setup Guide](LINUX_SETUP.md) included.
 - **SSL Management**: Generate or upload certificates directly from the dashboard.
 - **Advanced Classification**: Rules-based engine for Severity and Client mapping.
 
 ---
 
-## 📢 What's New in v1.1.0
+## 📢 What's New in v1.1.0 (Linux Edition)
 -   **Custom Domain Support**: Installers now prompt for custom domains (e.g., `alert.company.com`).
--   **IIS Compatibility**: Added `web.config` and a dedicated [IIS Setup Guide](IIS_SETUP.md).
+-   **Linux Optimization**: Streamlined `install.sh` and dedicated [Linux Manual Guide](LINUX_SETUP.md).
 -   **Smart Networking**: Auto-detection of IPs and `nip.io` integration for Google OAuth on local networks.
--   **Windows Installer**: New `install.bat` for one-click Docker setup on Windows.
-- **SLA Engine**: Visual countdowns and breach alerts to meet service standards.
+-   **SLA Engine**: Visual countdowns and breach alerts to meet service standards.
 
 ---
 
@@ -28,9 +27,8 @@ A powerful, high-speed, and role-based dashboard for managing help desk alerts, 
 
 Choose the method that fits your environment:
 
-1.  **Docker (Recommended)**: Best for Linux/Windows 10/11. Included in this repo.
-2.  **IIS (Windows Server)**: Best for production Windows Server 2016+. [Read Guide](IIS_SETUP.md).
-3.  **XAMPP (Manual)**: Good for local development without Docker.
+1.  **Docker (Recommended)**: Best for Ubuntu/Debian/RHEL. Included in this repo.
+2.  **Manual Linux**: For bare-metal servers (Nginx/PHP-FPM). [Read Guide](LINUX_SETUP.md).
 
 ---
 
@@ -43,9 +41,9 @@ Choose the method that fits your environment:
     ```
 
 2.  **Run the Interactive Installer**
-    - **Windows**: Double-click `install.bat`
-    - **Windows**: Double-click `install.bat`
-    - **Linux**: Run `chmod +x install.sh && ./install.sh`
+    ```bash
+    chmod +x install.sh && ./install.sh
+    ```
     > **Tip**: The installer will ask if you have a **Custom Domain** (e.g., `alert.company.com`). If not, it will offer to use `nip.io` for local IP compatibility.
 
 3.  **Launch the Setup Wizard**
