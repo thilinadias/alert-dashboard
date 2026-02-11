@@ -32,30 +32,26 @@ if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
 # 2. Install Tools via Chocolatey
 Write-Host "Installing Dependencies (PHP, Composer, URL Rewrite, VC++)..." -ForegroundColor Yellow
 
-# Function to run choco safely
-function Install-ChocoPackage ($Name, $Params = "") {
-    Write-Host "Installing $Name..." -ForegroundColor Cyan
-    if ($Params) {
-        choco install $Name $Params -y
-    }
-    else {
-        choco install $Name -y
-    }
-    
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "Error installing $Name. Access might be denied or reboot pending." -ForegroundColor Red
-    }
-}
+# Explicit commands to avoid PowerShell argument parsing issues
+Write-Host "Installing PHP..." -ForegroundColor Cyan
+choco install php --version=8.2.11 --package-parameters='/ThreadSafe:false /InstallDir:C:\php' -y --force
 
-Install-ChocoPackage "php" "--version=8.2.11 --package-parameters='/ThreadSafe:false /InstallDir:C:\php'"
-Install-ChocoPackage "vcredist140"
-Install-ChocoPackage "urlrewrite"
-Install-ChocoPackage "composer"
-Install-ChocoPackage "mysql"
+Write-Host "Installing VC++ Redist..." -ForegroundColor Cyan
+choco install vcredist140 -y --force
+
+Write-Host "Installing URL Rewrite..." -ForegroundColor Cyan
+choco install urlrewrite -y --force
+
+Write-Host "Installing Composer..." -ForegroundColor Cyan
+choco install composer -y --force
+
+Write-Host "Installing MySQL..." -ForegroundColor Cyan
+choco install mysql -y --force
 
 # Verify PHP installed
 if (-not (Test-Path "$PhpDir\php.ini-production")) {
-    Write-Host "ERROR: PHP was not installed to $PhpDir. Check previous errors." -ForegroundColor Red
+    Write-Host "ERROR: PHP was not installed to $PhpDir." -ForegroundColor Red
+    Write-Host "Manual Fix: Run 'choco install php --version=8.2.11 --package-parameters=""/ThreadSafe:false /InstallDir:C:\php"" -y' in cmd" -ForegroundColor Yellow
     Pause
     exit
 }
