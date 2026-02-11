@@ -86,6 +86,14 @@ You can secure your dashboard using the GUI:
 
 ---
 
+## 🏛️ IIS Installation (Windows Server)
+
+For Windows Server environments without Docker/XAMPP, we support native IIS deployment. 
+
+👉 **[Read the IIS Setup Guide](IIS_SETUP.md)**
+
+---
+
 ## 🖥 Manual Installation (XAMPP/Local)
 
 1.  `composer install`
