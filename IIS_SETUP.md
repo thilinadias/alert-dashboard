@@ -25,7 +25,10 @@ We have provided a PowerShell script to automatically download and install PHP, 
     Set-ExecutionPolicy Bypass -Scope Process -Force; .\install-iis-deps.ps1
     ```
 4.  **Wait**: The script will install Chocolatey, download all dependencies, and configure `php.ini` for you.
-5.  **Restart Server**: It is recommended to restart the server (or just IIS via `iisreset`) after installation.
+5.  **RESTART REQUIRED**: 
+    > ⚠️ **Important**: If this is the first time you are running this, Chocolatey may install **.NET Framework 4.8**. 
+    > **You MUST restart your server** and run the script again if you see red errors or if the script tells you to reboot.
+6.  **Restart Server**: It is recommended to restart the server (or just IIS via `iisreset`) after installation.
 
 ---
 
